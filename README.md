@@ -1,11 +1,13 @@
 # NL2SQL智能问答系统
 
 ## 环境配置
+```
 transformers=4.21.3
 flask
 openpyxl
 pandas
 sqlite3
+```
 
 ## 文件目录
 ```
