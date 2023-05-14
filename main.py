@@ -11,6 +11,10 @@ engine = Server()
 app.config['SECRET_KEY'] = '123456'
 
 
+@app.route('/')
+def root():
+    return redirect('/login')
+
 @app.route('/nl2sql', methods=["POST", "GET"])
 def nl2sql():
     db_list = engine.db_list
@@ -21,16 +25,22 @@ def nl2sql():
         db = request.form["db"]
         query = request.form["query"]
         print("Get {} {}".format(db, query))
-        sql = engine.get_sql(db, query)
-        res_sql = "问题：\n" + query + '\n\n' + "查询数据库：\n\n" + db + '\n' + "生成SQL：\n" + sql
-        result = engine.sql_excute(db, sql)
-        print(result, list(result), len(list(result)))
-        if result:
-            sel_str = str(sql).split("where")[0].split("WHERE")[0].split("from")[0].split("FROM")[0].replace("SELECT", "").replace("select", "").strip()
-            # col_list = [x.strip() for x in sel_str.split(',')]
-            for r in list(result):
-                print(r, list(r))
-                value_list.append(list(r))
+        if db and query:
+            sql = engine.get_sql(db, query)
+            res_sql = "问题：\n" + query + '\n\n' + "查询数据库：\n\n" + db + '\n' + "生成SQL：\n" + sql
+            result = engine.sql_excute(db, sql)
+            print(result, list(result), len(list(result)))
+            if result:
+                sel_str = str(sql).split("where")[0].split("WHERE")[0].split("from")[0].split("FROM")[0].replace("SELECT", "").replace("select", "").strip()
+                if sel_str != '*':
+                    col_list = [x.strip() for x in sel_str.split(',')]
+                else:
+                    table_str = str(sql).split("where")[0].split("WHERE")[0].split("from")[-1].split("FROM")[-1].strip()
+                    print(table_str)
+                    col_list, _ = engine.show_table(db, table_str)
+                for r in list(result):
+                    print(r, list(r))
+                    value_list.append(list(r))
 
             print(value_list)
 
@@ -49,7 +59,7 @@ def register():
         if password == cf_password and account not in account_info:
             account_info[account] = [password, phone_number, email]
             json.dump(account_info, open("./system/account_user.json", 'w', encoding="utf-8"), ensure_ascii=False, indent=4)
-            flash("注册成功！")
+            # flash("注册成功！")
             return redirect("/login")
         else:
             flash("注册失败，用户名已存在或密码校验错误！")
@@ -116,5 +126,6 @@ def upload_file():
 
 
 if __name__ == "__main__":
-    app.run(port=2020,host="10.201.109.46",debug=True)
+    # app.run(port=2020,host="10.201.109.46",debug=True)
+    app.run(port=2021,host="10.201.186.126",debug=True)
     # app.run(port=2020,host="127.0.0.1",debug=True)

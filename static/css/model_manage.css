@@ -214,6 +214,7 @@ input.usemodel{
 table{
     width: 100%;
     border-collapse: collapse;
+    min-width: 30px;
 }
 
 table caption{
@@ -226,6 +227,7 @@ th,td{
     border: 1px solid #999;
     text-align: center;
     padding: 16.5px 0;
+    min-width: 30px;
 }
 
 table thead tr{

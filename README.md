@@ -53,6 +53,22 @@ python main.py
 
 导入训练数据功能：通过点击“跳转至模型管理界面”进入，在左上角选择数据集，并进行结构化EXCEL文件上传，点击确认，后台会自动对EXCEL文件进行解析与预处理，并生成对应的数据集，EXCEL格式如 new_dataset.xlsx 所示
 
+## 模型训练
+
+模型训练通过离线进行，分为如下步骤
+
+1. 在train/data_train目录下创建文件夹，并参考给出的train_seq2seq.jsonl进行数据预处理
+
+2. 在train/plms目录下导入T5模型
+
+3. 对train/train_config中的finetune_args.py进行参数设置
+
+4. 运行如下命令进行模型训练
+
+```
+python train/main.py
+```
+
 ## 系统扩展
 
 界面扩展：在static/css中新增css样式，同时在templates中新增html页面

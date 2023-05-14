@@ -575,7 +575,7 @@ class FinetuneTrainer(PredictorTrainer):
 
             self.training_args.eval_steps = steps_per_epoch * 5
             self.training_args.save_steps = self.training_args.eval_steps
-            self.training_args.eval_delay = steps_per_epoch * 20
+            self.training_args.eval_delay = steps_per_epoch * 50
 
             with self.training_args.main_process_first(desc="train dataset map pre-processing"):
                 train_dataset = train_dataset.map(

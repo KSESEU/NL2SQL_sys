@@ -23,8 +23,8 @@ def process_data(data_list, schema_dict):
             model_input += "{}: ".format(k)
             model_input += ", ".join([x[0] for x in v])
             model_input += "; "
-        model_input = model_input[:-2] + " | " + " ".join(query_toks)
-        new_data = {"db_id": db_id, "text": model_input, "query": sql, "question": query, "question_toks": query_toks}
+        model_input = model_input[:-2] + " | " + query
+        new_data = {"db_id": db_id, "text": model_input, "sql": sql.lower(), "query": query, "query_toks": query_toks, "example": {"db_id": db_id}}
         new_data_list.append(new_data)
     return new_data_list
 
@@ -38,16 +38,20 @@ def build_db_file_for_esql():
         db_id = "esql_db_{}".format(i)
 
         db = {"column_names": column_names, "column_names_original": column_names, "column_types": column_types, "db_id": db_id,
-              "foreign_keys": [], "primary_keys": [], "table_names": ["表{}-1".format(i)], "table_names_original": ["表{}-1".format(i)]}
+              "foreign_keys": [], "primary_keys": [], "table_names": ["表{}_1".format(i)], "table_names_original": ["表{}_1".format(i)]}
         db_list.append(db)
     json.dump(db_list, open("./datasets/esql/original_data/tables.json", "w", encoding="utf-8"), ensure_ascii=False, indent=4)
 
 
 def build_dataset_for_esql():
-    agg_list = [None, 'MAX', 'MIN', 'COUNT', 'SUM', 'AVG']
-    order_list = ['DESC', 'ASC', None]
-    op_list = ['BETWEEN', '=', '>', '<', '>=', '<=', '!=']
-    conn_list = [None, 'AND', 'OR']
+    # agg_list = [None, 'MAX', 'MIN', 'COUNT', 'SUM', 'AVG']
+    agg_list = [None, '最大值', '最小值', '计数值', '总和值', '平均值']
+    # order_list = ['DESC', 'ASC', None]
+    order_list = ['降序', '升序', None]
+    # op_list = ['BETWEEN', '=', '>', '<', '>=', '<=', '!=']
+    op_list = ['在之间', '=', '>', '<', '>=', '<=', '!=']
+    # conn_list = [None, 'AND', 'OR']
+    conn_list = [None, '以及', '或者']
     schema_dict = get_schema("esql")
     for name in ["train", "dev", "test"]:
         data_list = [json.loads(line) for line in open("./datasets/esql/original_data/{}.jsonl".format(name), "r", encoding="utf-8")]
@@ -55,11 +59,12 @@ def build_dataset_for_esql():
         for data in data_list:
             num = int(data["table_id"].split("_")[-1])
             db_id = "esql_db_{}".format(num)
-            col_list =  [x[0] for x in schema_dict[db_id]["表{}-1".format(num)]]
-            type_list =  [x[1] for x in schema_dict[db_id]["表{}-1".format(num)]]
+            col_list =  [x[0] for x in schema_dict[db_id]["表{}_1".format(num)]]
+            type_list =  [x[1] for x in schema_dict[db_id]["表{}_1".format(num)]]
             query = data["question"]
             query_toks = [x for x in query]
-            sql = "SELECT "
+            # sql = "SELECT "
+            sql = "选择 "
             #select
             sel_col = [col_list[x] for x in data["sql"]["sel"]]
             for col, agg in zip(sel_col, data["sql"]["agg"]):
@@ -70,34 +75,58 @@ def build_dataset_for_esql():
             sql = sql[:-2]
 
             #from
-            sql += " FROM {} ".format("表{}-1".format(num))
+            # sql += " FROM {} ".format("表{}_1".format(num))
+            sql += " 关联 {} ".format("表{}_1".format(num))
             #where
-            sql += "WHERE "
+            # sql += "WHERE "
+            sql += "条件为 "
             for i, cond in enumerate(data["sql"]["conds"]):
                 t = type_list[cond[2]]
                 if cond[1] != 0:
                     sql += "{} {} {} ".format(col_list[cond[2]],
                                               op_list[cond[1]],
                                               cond[3] if t == "number" else "'{}'".format(cond[3]))
+                    # sql += "{}%{}%{}%".format(col_list[cond[2]],
+                    #                           op_list[cond[1]],
+                    #                           cond[3] if t == "number" else "'{}'".format(cond[3]))
                 else:
-                    sql += "{} {} {} AND {} ".format(col_list[cond[2]],
+                    # sql += "{} {} {} AND {} ".format(col_list[cond[2]],
+                    #                                  op_list[cond[1]],
+                    #                                  cond[3] if t == "number" else "'{}'".format(cond[3]),
+                    #                                  cond[4] if t == "number" else "'{}'".format(cond[4]))
+                    sql += "{} {} {} 以及 {} ".format(col_list[cond[2]],
                                                      op_list[cond[1]],
                                                      cond[3] if t == "number" else "'{}'".format(cond[3]),
                                                      cond[4] if t == "number" else "'{}'".format(cond[4]))
                 if i < len(data["sql"]["conds"]) - 1:
                     sql += "{} ".format(conn_list[data["sql"]["cond_conn_op"]])
+                    # sql += "{}%".format(conn_list[data["sql"]["cond_conn_op"]])
             #order by
             if data["sql"]["ord_by"][0] != -1:
                 ob = data["sql"]["ord_by"]
-                sql += "ORDER BY {} {} LIMIT {}".format(col_list[ob[0]], order_list[ob[1]], ob[2])
+                # sql += "ORDER BY '{}' {} LIMIT {}".format(col_list[ob[0]], order_list[ob[1]], ob[2])
+                sql += "排序 {} {} 限制 {}".format(col_list[ob[0]], order_list[ob[1]], ob[2])
             else:
                 sql = sql[:-1]
             print(sql)
             new_data_list.append([db_id, query, query_toks, sql])
         processed_data_list = process_data(new_data_list, schema_dict)
-        with open("./datasets/esql/original_data/{}.json".format(name), "w", encoding="utf-8") as f:
+        with open("./datasets/esql/original_data/{}_seq2seq.jsonl".format(name), "w", encoding="utf-8") as f:
             for data in processed_data_list:
-                f.write(json.dumps(data, ensure_ascii=False, indent=4) + "\n")
+                f.write(json.dumps(data, ensure_ascii=False) + "\n")
+
+
+#翻译ESQL的定制化中文SQL（T5-small-chinese对英文特别敏感，极容易产生n-gram repeat）
+def translate_cn_sql(sql):
+    keyword_dict = {"最大值": "MAX", "最小值": "MIN", "计数值": "COUNT", "总和值": "SUM", "平均值": "AVG",
+                    "降序": "DESC", "升序": "ASC", "在之间": "BETWEEN", "以及": "AND", "或者": "OR",
+                    "选择": "SELECT", "关联": "FROM", "条件为": "WHERE", "排序": "ORDER BY", "限制": "LIMIT"}
+    sql = sql.replace(" ", "").replace("&", "").replace("where", " WHERE ").replace("表1-1", "表1_1")
+    for kw, v in keyword_dict.items():
+        if kw in sql:
+            sql = sql.replace(kw, " {} ".format(v))
+    return sql
+
 
 
 def process_excel_data(excel_path, excel_name, dataset):
@@ -115,5 +144,5 @@ def process_excel_data(excel_path, excel_name, dataset):
 
 
 if __name__ == "__main__":
-#     # build_db_file_for_esql()
+    build_db_file_for_esql()
     build_dataset_for_esql()
