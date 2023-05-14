@@ -2,6 +2,7 @@ import json
 import sqlite3
 import os
 
+# 用于为ESQL生成数据库
 def create_db(table_list, db_path):
     type_dict = {"string": "text", "number": "float", "date": "text"}
 

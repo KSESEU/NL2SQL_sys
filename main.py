@@ -10,11 +10,12 @@ app = Flask(__name__)
 engine = Server()
 app.config['SECRET_KEY'] = '123456'
 
-
+#根URL，跳转至登录
 @app.route('/')
 def root():
     return redirect('/login')
 
+#问答接口
 @app.route('/nl2sql', methods=["POST", "GET"])
 def nl2sql():
     db_list = engine.db_list
@@ -46,7 +47,7 @@ def nl2sql():
 
     return render_template("nl2sql.html", db_list=db_list, col_list=col_list, value_list=value_list, res_sql=res_sql)
 
-
+#注册接口
 @app.route('/register', methods=["POST", "GET"])
 def register():
     if request.method == "POST":
@@ -67,7 +68,7 @@ def register():
     else:
         return render_template("register.html")
 
-
+#登录接口
 @app.route('/login', methods=["POST", "GET"])
 def login():
     if request.method == "POST":
@@ -85,7 +86,7 @@ def login():
             return render_template("login.html")
     return render_template("login.html")
 
-
+#数据库查看接口
 @app.route('/db_manage', methods=["POST", "GET"])
 def db_manage():
     db_table_dict = engine.db_table_dict
@@ -98,12 +99,12 @@ def db_manage():
 
     return render_template("db_manage.html", db_table_dict=db_table_dict, col_list=col_list, value_list=value_list)
 
-
+#模型管理接口
 @app.route('/model_manage')
 def model_manage():
     return render_template("model_manage.html")
 
-
+#训练数据上传与解析接口
 @app.route('/upload_file', methods=['POST'])
 def upload_file():
     print("upload_file")

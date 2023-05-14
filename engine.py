@@ -7,7 +7,7 @@ from predictor import Predictor
 from preprocess_dataset import translate_cn_sql
 import json
 
-
+# 用于服务器与算法接口以及数据库交互
 class Server:
     def __init__(self):
         self.args = init_arg_parser()
@@ -17,7 +17,7 @@ class Server:
         self.db_table_dict = self.get_all_db_table()
         self.direct_dict = self.get_direct_dict() if self.args.use_direct and self.args.data_name == "esql" and os.path.exists(self.args.sample_path.format(self.args.data_name)) else {}
 
-
+    #SQL执行
     def sql_excute(self, db_name, sql):
         print("sql: {}".format(sql))
         conn = sqlite3.connect(os.path.join(self.db_path, db_name, "{}.sqlite".format(db_name)))
@@ -28,6 +28,7 @@ class Server:
         except:
             return []
 
+    #获取SQL生成结果
     def get_sql(self, db_name, nlq):
         sql = self.nl2sql.predict(question=nlq, db_id=db_name)
         if nlq in self.direct_dict:
@@ -36,11 +37,14 @@ class Server:
             sql = translate_cn_sql(sql)
         return sql
 
+
     def get_direct_dict(self):
         return {json.loads(x)["query"]: json.loads(x)["sql"] for x in open(self.args.sample_path.format(self.args.data_name), "r", encoding="utf-8")}
 
+
     def load_database(self):
         return self.db_list
+
 
     def load_table(self, db_name):
         conn = sqlite3.connect(os.path.join(self.db_path, db_name, "{}.sqlite".format(db_name)))
@@ -50,12 +54,14 @@ class Server:
         table_name_list = [line[0] for line in table_name_list]
         return table_name_list
 
+
     def get_all_db_table(self):
         db_table_dict = {}
         for db in self.db_list:
             db_table_dict[db] = self.load_table(db)
         return db_table_dict
 
+    #表格内容获取
     def show_table(self, db_name, table_name):
         if table_name not in self.db_table_dict[db_name]:
             return [], []

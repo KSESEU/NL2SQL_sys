@@ -2,7 +2,7 @@ from transformers import AutoTokenizer, T5ForConditionalGeneration
 
 from utils.utils import get_db_schema, generate_template, wrap_question
 
-
+#NL2SQL算法接口，用于预测SQL
 class Predictor:
     def __init__(self, ckpt_dir: str, dataset_dir: str):
         self.templates = {}

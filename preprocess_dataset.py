@@ -28,7 +28,7 @@ def process_data(data_list, schema_dict):
         new_data_list.append(new_data)
     return new_data_list
 
-
+#用于为ESQL生成表格文件
 def build_db_file_for_esql():
     table_list = [json.loads(line) for line in open("./datasets/esql/original_data/tables.jsonl", "r", encoding="utf-8")]
     db_list = []
@@ -42,7 +42,7 @@ def build_db_file_for_esql():
         db_list.append(db)
     json.dump(db_list, open("./datasets/esql/original_data/tables.json", "w", encoding="utf-8"), ensure_ascii=False, indent=4)
 
-
+#用于为ESQL生成训练数据
 def build_dataset_for_esql():
     # agg_list = [None, 'MAX', 'MIN', 'COUNT', 'SUM', 'AVG']
     agg_list = [None, '最大值', '最小值', '计数值', '总和值', '平均值']
@@ -128,7 +128,7 @@ def translate_cn_sql(sql):
     return sql
 
 
-
+#用于解析EXCEL文件自动构建数据集
 def process_excel_data(excel_path, excel_name, dataset):
     schema_dict = get_schema(dataset)
     for name in ["train", "dev", "test"]:
