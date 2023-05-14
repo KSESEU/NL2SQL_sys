@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>模型管理</title>
+    <style type="text/css">
+        @import url(../static/css/model_manage.css);
+    </style>
+    <script type="text/javascript" src="../static/jquery/jquery-3.4.1.js"></script>
+
+</head>
+<body>
+    <div class="bg">
+    <div class="title">
+        <h1>模型管理</h1><a href="./db_manage">跳转至数据库查看</a>
+    </div>
+    <div style="weight:100%;height:750px;padding: 10px 10px;margin: 10px auto;display:flex;">
+
+        <div class="block_button" style="overflow-y:none;overflow-x:none">
+            <div class="box2">
+                <h2>训练数据导入</h2>
+                <form action="/upload_file" method="post" enctype="multipart/form-data">
+                    <input type="text" class="dbinput" placeholder="数据集名称" list="datasetlist" name="dataset"/>
+                    <datalist id="datasetlist">
+                        <option>spider</option>
+                        <option>esql</option>
+                        <option>wikisql</option>
+                        <option>cspider</option>
+                        <option>fsql</option>
+                    </datalist>
+                    <input type="file" name="file">
+                    <button type="submit" id="bt">训练数据导入</button>
+                    {% for message in get_flashed_messages() %}
+                        <div class=flash>{{ message }}</div>
+                    {% endfor %}
+                </form>
+<!--                <input type="file" id="labeled_data" placeholder="监督数据导入"><button id="ld" type="button" onclick="ld_on_click()">有标注数据导入</button>-->
+<!--                <input type="file" id="unlabeled_data" placeholder="无监督数据导入"><button id="ud" type="button">无标注数据导入</button>-->
+
+            </div>
+            <div class="box3">
+                <h2>模型训练</h2>
+                <input type="text" class="dbinput" placeholder="数据集名称" list="datasetlist" name="dataset"/>
+                <input type="text" class="modelinput" placeholder="模型类型" list="modellist" name="model"/>
+                <input type="text" class="modelinput" placeholder="模型名称" list="loglist" name="model"/>
+                <datalist id="modellist">
+                    <option>HydraNet</option>
+                    <option>MST-SQL</option>
+                    <option>IRNet</option>
+                    <option>SFNet</option>
+                    <option>T5</option>
+                </datalist>
+                <datalist id="loglist">
+                    <option>随机初始化</option>
+                </datalist>
+                <button type="button">监督增量训练</button><button type="button">半监督增量训练</button>
+                <button type="button">持续学习训练</button><button type="button">通用训练</button>
+            </div>
+        </div>
+
+        <div class="block_log">
+            <div class="title"><h2>模型训练日志</h2></div>
+            <input type="text" class="usemodel" placeholder="部署模型名称" list="loglist" name="usemodel"/>
+            <div style="height:580px;overflow-y:scroll;overflow-x:none">
+            <table border="2">
+                <thead>
+                <tr><td>ID</td><td>开始时间</td><td>结束时间</td><td>模型类型</td><td>模型名称</td><td>训练类型</td></tr>
+                </thead>
+                <tr><td>3124342546</td><td>20230410</td><td>20230412</td><td>SFNet</td><td>sfnet_ver_20230410</td><td>持续学习训练</td></tr>
+                <tr><td>2138912380</td><td>20230409</td><td>20230410</td><td>SFNet</td><td>sfnet_ver_20230409</td><td>通用训练</td></tr>
+                <tr><td>0173081130</td><td>20230406</td><td>20230408</td><td>MST-SQL</td><td>mstsql_ver_20230406</td><td>半监督增量训练</td></tr>
+                <tr><td>2094373249</td><td>20230406</td><td>20230407</td><td>HydraNet</td><td>hydranet_ver_20230406</td><td>通用训练</td></tr>
+                <tr><td>9127430942</td><td>20230405</td><td>20230406</td><td>MST-SQL</td><td>mstsql_ver_20230405</td><td>通用训练</td></tr>
+                <tr><td>8964283947</td><td>20230405</td><td>20230405</td><td>T5</td><td>t5_ver_20230405</td><td>监督增量训练</td></tr>
+                <tr><td>9074101313</td><td>20230403</td><td>20230404</td><td>T5</td><td>t5_ver_20230403</td><td>监督增量训练</td></tr>
+                <tr><td>1283719013</td><td>20230328</td><td>20230330</td><td>T5</td><td>t5_ver_20230328</td><td>通用训练</td></tr>
+                <tr><td>8916391231</td><td>20230317</td><td>20230321</td><td>IRNet</td><td>irnet_ver_20230317</td><td>通用训练</td></tr>
+                <tr><td>2137129831</td><td>20230314</td><td>20230317</td><td>IRNet</td><td>irnet_ver_20230314</td><td>通用训练</td></tr>
+                <tr><td>2137129831</td><td>20230314</td><td>20230317</td><td>IRNet</td><td>irnet_ver_20230314</td><td>通用训练</td></tr>
+                <tr><td>2137129831</td><td>20230314</td><td>20230317</td><td>IRNet</td><td>irnet_ver_20230314</td><td>通用训练</td></tr>
+                <tr><td>2137129831</td><td>20230314</td><td>20230317</td><td>IRNet</td><td>irnet_ver_20230314</td><td>通用训练</td></tr>
+                <tr><td>2137129831</td><td>20230314</td><td>20230317</td><td>IRNet</td><td>irnet_ver_20230314</td><td>通用训练</td></tr>
+                <tr><td>2137129831</td><td>20230314</td><td>20230317</td><td>IRNet</td><td>irnet_ver_20230314</td><td>通用训练</td></tr>
+                <tr><td>2137129831</td><td>20230314</td><td>20230317</td><td>IRNet</td><td>irnet_ver_20230314</td><td>通用训练</td></tr>
+                <tr><td>2137129831</td><td>20230314</td><td>20230317</td><td>IRNet</td><td>irnet_ver_20230314</td><td>通用训练</td></tr>
+                <tr><td>2137129831</td><td>20230314</td><td>20230317</td><td>IRNet</td><td>irnet_ver_20230314</td><td>通用训练</td></tr>
+                <tr><td>2137129831</td><td>20230314</td><td>20230317</td><td>IRNet</td><td>irnet_ver_20230314</td><td>通用训练</td></tr>
+                <tr><td>2137129831</td><td>20230314</td><td>20230317</td><td>IRNet</td><td>irnet_ver_20230314</td><td>通用训练</td></tr>
+                <tr><td>2137129831</td><td>20230314</td><td>20230317</td><td>IRNet</td><td>irnet_ver_20230314</td><td>通用训练</td></tr>
+                <tr><td>2137129831</td><td>20230314</td><td>20230317</td><td>IRNet</td><td>irnet_ver_20230314</td><td>通用训练</td></tr>
+                <tr><td>2137129831</td><td>20230314</td><td>20230317</td><td>IRNet</td><td>irnet_ver_20230314</td><td>通用训练</td></tr>
+                <tr><td>2137129831</td><td>20230314</td><td>20230317</td><td>IRNet</td><td>irnet_ver_20230314</td><td>通用训练</td></tr>
+                <tr><td>2137129831</td><td>20230314</td><td>20230317</td><td>IRNet</td><td>irnet_ver_20230314</td><td>通用训练</td></tr>
+            </table>
+            </div>
+        </div>
+    </div>
+    </div>
+<!--    <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.js"></script>-->
+<!--    <script>-->
+<!--    document.getElementById("ld").onclick = function() {-->
+<!--          alert("ccccc");-->
+<!--          var files = document.getElementById("file").files;-->
+<!--          var formFile = new FormData();-->
+<!--          var path = document.getElementById("path").value-->
+<!--          formFile.append("file", files[0]); //加入文件对象-->
+<!--          $.ajax({-->
+<!--             url: "/upload_file",-->
+<!--             data: formFile,-->
+<!--             type: "post",-->
+<!--             dataType: "json",-->
+<!--             cache: false,//上传文件无需缓存-->
+<!--             processData: false,//用于对data参数进行序列化处理 这里必须false-->
+<!--             contentType: false, //必须-->
+<!--             success: function (result抽奖时间：{-->
+<!--                 alert("上传完成!");-->
+<!--             },-->
+<!--    };-->
+<!--    $('#labeled_data').change(function (e) {-->
+<!--          var files = e.target.files;-->
+<!--          var formFile = new FormData();-->
+<!--          var path = document.getElementById("path").value-->
+<!--          formFile.append("file", files[0]); //加入文件对象-->
+<!--          alert("aaaaa");-->
+<!--          $.ajax({-->
+<!--             url: "/upload_file",-->
+<!--             data: formFile,-->
+<!--             type: "post",-->
+<!--             dataType: "json",-->
+<!--             cache: false,//上传文件无需缓存-->
+<!--             processData: false,//用于对data参数进行序列化处理 这里必须false-->
+<!--             contentType: false, //必须-->
+<!--             success: function (result抽奖时间：{-->
+<!--                 alert("上传完成!");-->
+<!--             },-->
+<!--         })-->
+<!--    $('#unlabeled_data').change(function (e) {-->
+<!--          var files = e.target.files;-->
+<!--          var formFile = new FormData();-->
+<!--          formFile.append("file", files[0]); //加入文件对象-->
+<!--          alert("bbbbb");-->
+<!--          $.ajax({-->
+<!--             url: "/upload_file",-->
+<!--             data: formFile,-->
+<!--             type: "post",-->
+<!--             dataType: "json",-->
+<!--             cache: false,//上传文件无需缓存-->
+<!--             processData: false,//用于对data参数进行序列化处理 这里必须false-->
+<!--             contentType: false, //必须-->
+<!--             success: function (result抽奖时间：{-->
+<!--                 alert("上传完成!");-->
+<!--             },-->
+<!--         })-->
+<!--    </script>-->
+
+<!--    <script type="text/javascript">-->
+<!--        function ld_on_click() {-->
+<!--            alert("ccccc");-->
+<!--            var files = document.getElementById("file").files;-->
+<!--            var formFile = new FormData();-->
+<!--            var path = document.getElementById("path").value-->
+<!--            formFile.append("file", files[0]); //加入文件对象-->
+<!--            $.ajax({-->
+<!--                url: "/upload_file",-->
+<!--                data: formFile,-->
+<!--                type: "post",-->
+<!--                dataType: "json",-->
+<!--                cache: false,//上传文件无需缓存-->
+<!--                processData: false,//用于对data参数进行序列化处理 这里必须false-->
+<!--                contentType: false, //必须-->
+<!--                success: function () {-->
+<!--                    alert("上传完成!");-->
+<!--                },-->
+<!--            })-->
+<!--        }-->
+<!--    </script>-->
+</body>
+
+</html>

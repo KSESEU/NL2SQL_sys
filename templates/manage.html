@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+        body{
+            background: url(../static/images/bg.jpg);
+            /* 设置背景铺满 */
+            background-repeat:no-repeat;
+            background-size:100%;
+
+        }
+
+        a:hover {
+            /* 悬空的时候有被选中的样子 出现下划线*/
+            text-decoration: underline;
+        }
+
+        p.yahei{
+            font-family: "微软雅黑", "华文新魏", "宋体", serif;
+            font-size: 100%;
+            margin: 10px auto;
+        }
+
+        button{
+            width: 140px;
+            height: 40px;
+
+            text-align: center;
+            font-size: 16px;
+
+            background-color: #9CF8CC;
+            border-radius: 5px;
+            border-width: none;
+        }
+
+        div.bg{
+            /* 设置form大小 */
+            width: 1600px;
+            height: 920px;
+
+            /* 加个背景颜色 */
+            background-color: #E1E9EF;
+
+            /* 设置透明度 */
+            opacity: 95%;
+
+            text-align: center;
+            /* 再设置内边距 使得内容更偏向于中央位置 */
+            /* 上方，下方内边距为120px 与 左边与右边均为100px 按照逆时针 */
+            /* 但是会撑大盒子 */
+            padding: 20px 40px;
+
+            /* 设置文本文字的大小 */
+            font-size: 18px;
+
+            /* 添加圆角边框 */
+            border-radius: 10px;
+
+            /* 增加外边距 */
+            /* 上下120px 然后左右居中 */
+            margin: 20px auto;
+        }
+
+        div.title{
+            text-align: center;
+        }
+
+        div.db_block{
+
+            width: 400px;
+            height: 600px;
+            opacity: 85%;
+
+            text-align: center;
+
+            padding: 10px 20px;
+
+            font-size: 18px;
+
+            border-radius: 5px;
+
+            margin: 15px auto;
+            display: inline-block;
+
+        }
+
+        div.model_block{
+
+            width: 400px;
+            height: 600px;
+            opacity: 85%;
+
+            text-align: center;
+
+            padding: 10px 20px;
+
+            font-size: 18px;
+
+            border-radius: 5px;
+
+            margin: 15px auto;
+
+        }
+
+        div.box1{
+            display: inline-block;
+        }
+
+        div.box2{
+            background-color: #DCF0BC;
+
+            width: 300px;
+            height: 100px;
+            opacity: 85%;
+
+            text-align: center;
+
+            padding: 10px 20px;
+
+            font-size: 18px;
+
+            border-radius: 5px;
+
+            margin: 15px auto;
+
+        }
+
+        div.box3{
+            background-color: #DCF0BC;
+
+            width: 300px;
+            height: 180px;
+            opacity: 85%;
+
+            text-align: center;
+
+            padding: 10px 20px;
+
+            font-size: 18px;
+
+            border-radius: 5px;
+
+            margin: 15px auto;
+
+        }
+
+        input.dbinput{
+            /* 设置宽高 */
+            width: 300px;
+            height: 50px;
+
+            /* 内部文本居中 */
+            text-align: center;
+
+            border-radius: 5px;
+            border-width: medium;
+            border-color: #ffe6fa;
+
+            /* 圆角边框 */
+
+            /* 设置字体 */
+            font: 18px "黑体";
+            margin: 10px auto;
+        }
+
+    </style>
+
+</head>
+<body>
+    <div class="bg">
+    <div class="title">
+        <h1>管理界面</h1>
+    </div>
+    <div>
+        <div class="db_block">
+            <div><input type="text" class="dbinput" placeholder="数据库名称" list="dblist" name="db"/></div>
+            <datalist id="dblist">
+                <option>中国A股审计意见</option>
+                <option>中国A股资产负债表</option>
+                <option>中国A股银行专用指标</option>
+                <option>中国A股大宗交易数据</option>
+                <option>中国A股股本</option>
+                <option>中国A股资本运作</option>
+                <option>中国A股现金流量表</option>
+                <option>中国A股公司公告</option>
+                <option>中国A股控股参股</option>
+                <option>中国A股盈利预测汇总</option>
+            </datalist>
+            <table border="1">
+                <tr><td>对象ID</td><td>Wind代码</td><td>除权除息日</td><td>除权类型</td><td>除权说明</td><td>派息比例</td></tr>
+                <tr><td>001</td><td>603113.SH</td><td>20190109</td><td>分红</td><td>每10股派2.35元(含税)</td><td>0.2350</td></tr>
+                <tr><td>002</td><td>002017.SZ</td><td>20190228</td><td>配股</td><td>每10股配3股,每股4.04元</td><td>0</td></tr>
+                <tr><td>003</td><td>600459.SH</td><td>20190301</td><td>配股</td><td>每10股配3股,每股10.38元</td><td>0</td></tr>
+
+            </table>
+        </div>
+        <div class="model_block">
+            <div class="box2">
+                <h4>表格数据导入</h4>
+                <div class="box1">
+                    <div class="box1">
+                        <button type="button">表格数据更新</button>
+                    </div>
+                    <div class="box1">
+                        <button type="button">新表格导入</button>
+                    </div>
+                </div>
+            </div>
+            <div class="box2">
+                <h4>增量数据导入</h4>
+                <div class="box1">
+                    <div class="box1">
+                        <button type="button">监督数据导入</button>
+                    </div>
+                    <div class="box1">
+                        <button type="button">无监督数据导入</button>
+                    </div>
+                </div>
+            </div>
+            <select>
+                <option>HydraNet</option>
+                <option>IRNet</option>
+                <option>T5</option>
+            </select>
+            <div class="box3">
+                <h4>模型训练</h4>
+                <div>
+                    <div class="box1">
+                        <button type="button">监督增量训练</button>
+                    </div>
+                    <div class="box1">
+                        <button type="button">半监督增量训练</button>
+                    </div>
+                </div><br/>
+                <div class="box1">
+                    <div class="box1">
+                        <button type="button">持续学习训练</button>
+                    </div>
+                    <div class="box1">
+                        <button type="button">普通训练</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>NL2SQL智能检索</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>登录</title>
+    <style type="text/css">
+        @import url(../static/css/nl2sql.css);
+    </style>
+</head>
+
+<body>
+    <form class="big" method="post" action="/nl2sql">
+        <div class="title">
+            <h1>NL2SQL智能检索</h1>
+        </div>
+        <div>
+            <div class="box1"><input type="text" class="dbinput" placeholder="数据库名称" list="dblist" name="db"/></div>
+            <datalist id="dblist">
+                {% for db in db_list %}
+                    <option>{{ db }}</option>
+                {% endfor %}
+
+            </datalist>
+            <div class="box1"><input type="text" class="textinput" placeholder="请输入自然语言查询" name="query"/></div>
+            <div class="box1"><input type="submit" value="查询"/></div>
+
+        </div><br/>
+
+        <div class="box2">
+
+            <textarea class="result" name="result">{{res_sql}}</textarea>
+            <div style="width:85%;height:300px;overflow-y:scroll;overflow-x:scroll;background-color:#E1E9EF;opacity:95%;margin: 10px auto;">
+                <table cellspacing='0'>
+                     <thead>
+                     <tr>
+                     {% for col in col_list %}
+                        <th>{{ col }}</th>
+                     {% endfor %}
+                     </tr>
+                     </thead>
+                     <tbody>
+                     {% for value in value_list %}
+                        <tr>
+                            {% for v in value %}
+                                <td>{{ v }}</td>
+                            {% endfor %}
+                        </tr>
+                     {% endfor %}
+                     </tbody>
+                 </table>
+
+            </div>
+
+        </div>
+
+    </form>
+
+</body>
+
+</html>

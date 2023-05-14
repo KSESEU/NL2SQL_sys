@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>登录</title>
+    <style>
+        body{
+            background: url(../static/images/bg.jpg);
+            /* 设置背景铺满 */
+            background-repeat:no-repeat;
+            background-size:100%;
+
+        }
+        form.big{
+            /* 设置form大小 */
+            width: 1500px;
+            height: 500px;
+
+            /* 加个背景颜色 */
+            background-color: #E1E9EF;
+
+            /* 设置透明度 */
+            opacity: 95%;
+
+            text-align: center;
+            /* 再设置内边距 使得内容更偏向于中央位置 */
+            /* 上方，下方内边距为120px 与 左边与右边均为100px 按照逆时针 */
+            /* 但是会撑大盒子 */
+            padding: 120px 80px;
+
+            /* 设置文本文字的大小 */
+            font-size: 18px;
+
+            /* 添加圆角边框 */
+            border-radius: 10px;
+
+            /* 增加外边距 */
+            /* 上下120px 然后左右居中 */
+            margin: 100px auto;
+        }
+
+        form.small{
+            /* 设置form大小 */
+            width: 600px;
+            height: 300px;
+
+            /* 加个背景颜色 */
+            background-color: #F8C8F2;
+
+            /* 设置透明度 */
+            opacity: 95%;
+            font-color: #F8C8F2;
+            text-align : left;
+
+            /* 再设置内边距 使得内容更偏向于中央位置 */
+            /* 上方，下方内边距为120px 与 左边与右边均为100px 按照逆时针 */
+            /* 但是会撑大盒子 */
+            padding: 50px 40px;
+
+            /* 设置文本文字的大小 */
+            font-size: 20px;
+
+            /* 添加圆角边框 */
+            border-radius: 10px;
+
+            /* 增加外边距 */
+            /* 上下120px 然后左右居中 */
+            margin: 30px auto;
+        }
+
+        .textinput{
+            /* 设置宽高 */
+            height: 40px;
+            width: 300px;
+
+            /* 设置内边距 */
+            padding: 0 35px;
+
+            /* 去除边框 */
+            border: none;
+
+            /* 设置背景颜色 */
+            background: #F8F9F9;
+
+            /* 设置字体大小 */
+            font-size: 15px;
+
+            /* 给文本框加上阴影 */
+            box-shadow: 0px 1px 1px rgba(255, 255, 255, 0.7), inset 0px 2px 5px #aaaaaa;
+
+            /* 给文本框加上圆角边框 */
+            border-radius: 5px;
+
+            /* 给文本框中输入文字加上颜色 */
+            color: saddlebrown;
+        }
+
+        /* 筛选input标签中 type为"submit"的 进行渲染*/
+        input[type="submit"]{
+            /* 设置宽高 */
+            width: 100px;
+            height: 70px;
+
+            /* 内部文本居中 */
+            text-align: center;
+            text-color: #879ffd;
+
+            /* 圆角边框 */
+            border-radius: 5px;
+            border-width: medium;
+            border-color: #ffe6fa;
+
+            /* 设置字体 */
+            font:18px "黑体";
+
+            /* 设置背景颜色 */
+            background-color: #fde0de;
+            margin: 10px auto;
+        }
+        input.textinput{
+            /* 设置宽高 */
+            width: 800px;
+            height: 70px;
+
+            /* 内部文本居中 */
+            text-align: center;
+
+            border-radius: 5px;
+            border-width: medium;
+            border-color: #ffe6fa;
+
+            /* 圆角边框 */
+
+            /* 设置字体 */
+            font: 18px "黑体";
+            margin: 10px auto;
+        }
+        input.dbinput{
+            /* 设置宽高 */
+            width: 200px;
+            height: 70px;
+
+            /* 内部文本居中 */
+            text-align: center;
+
+            border-radius: 5px;
+            border-width: medium;
+            border-color: #ffe6fa;
+
+            /* 圆角边框 */
+
+            /* 设置字体 */
+            font: 20px "黑体";
+            margin: 10px auto;
+        }
+        input.answer{
+            /* 设置宽高 */
+            width: 1100px;
+            height: 300px;
+
+            text-align: center;
+            border-radius: 10px;
+            border-width: medium;
+            border-color: #ffe6fa;
+
+            /* 圆角边框 */
+
+            /* 设置字体 */
+            font: 22px "黑体";
+            margin: 10px auto;
+            white-space:pre;
+        }
+        a {
+            /* 去除下划线 */
+            text-decoration: none;
+        }
+
+        a:hover {
+            /* 悬空的时候有被选中的样子 出现下划线*/
+            text-decoration: underline;
+        }
+
+        p.yahei{
+            font-family: Consolas, Time, serif;
+            font-size: 100%;
+            font-color: #F8C8F2;
+            text-color: #F8C8F2;
+            margin: 10px auto;
+        }
+
+        div.box1{
+            display: inline-block;
+        }
+        div.box2{
+            width: 1000px;
+            height: 400px;
+
+            /* 加个背景颜色 */
+            background-color: #AFB6BC;
+            text-align: center;
+            margin: 20px auto;
+            padding: 10px 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <form class="big" method="post" action="/index">
+        <div>
+            <div class="box1"><input type="text" class="dbinput" placeholder="数据库名称" list="dblist" name="db"/></div>
+            <datalist id="dblist">
+                <option>db1</option>
+                <option>db2</option>
+                <option>db3</option>
+                <option>db4</option>
+                <option>db5</option>
+            </datalist>
+            <div class="box1"><input type="text" class="textinput" placeholder="请输入自然语言查询" name="query"/></div>
+            <div class="box1"><input type="submit" value="查询"/></div>
+
+        </div><br/>
+
+        <div class="box2">
+            <p class="yahei">查询数据库: </p>
+            <p class="yahei">歌手名单</p><br/>
+            <p class="yahei">自然语言查询: </p>
+            <p class="yahei">显示所有歌手的名字，出生地，年龄，按年龄从最大到最小排序。</p><br/>
+            <p class="yahei">预测SQL:</p>
+            <p class="yahei">SELECT 名字, 出生地, 年龄 FROM 演唱会歌手 ORDER BY 年龄 DESC</p><br/>
+            <p class="yahei">查询最终结果:</p>
+            <p class="yahei">('刘德华', '中国', 62) ('Joe Sharp', '瑞士', 52) ('周杰伦', '中国', 44) ('John Nizinik', '法国', 43) ('薛之谦', '中国', 40) ('Timbaland', '美国', 32)</p><br/>
+        </div>
+
+    </form>
+
+</body>
+
+</html>

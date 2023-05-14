@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>数据库查看</title>
+    <style type="text/css">
+        @import url(../static/css/db_manage.css);
+    </style>
+
+</head>
+<body>
+    <div class="bg">
+    <div class="title">
+        <h1>数据库查看</h1><a href="./model_manage">跳转至模型管理</a>
+    </div>
+    <div>
+        <div class="db_block">
+            <form method="post" action="./db_manage">
+            <div class="ib"><input type="text" class="dbinput" placeholder="数据库名称" list="db_list" name="db" id="db"/>
+            <datalist id="db_list">
+                {% for db in db_table_dict %}
+                    <option>{{ db }}</option>
+                {% endfor %}
+            </datalist>
+            </div>
+            <div class="ib"><input type="button" value="确定" onclick="refresh_table()"/></div>
+            <div class="ib"><input type="text" class="tableinput" placeholder="表格名称" list="table_list" name="table" id="table"/>
+            <datalist id="table_list">
+                <option>无</option>
+            </datalist>
+            </div>
+            <div class="ib"><input type="submit" value="确定"/></div>
+            </form>
+            <div style="width:100%;height:730px;overflow-y:scroll;overflow-x:scroll">
+                <table cellspacing='0'>
+                     <thead>
+                     <tr>
+                     {% for col in col_list %}
+                        <th>{{ col }}</th>
+                     {% endfor %}
+                     </tr>
+                     </thead>
+                     <tbody>
+                     {% for value in value_list %}
+                        <tr>
+                            {% for v in value %}
+                                <td>{{ v }}</td>
+                            {% endfor %}
+                        </tr>
+                     {% endfor %}
+
+                     </tbody>
+                 </table>
+
+            </div>
+        </div>
+
+    </div>
+    </div>
+    <script>
+        function refresh_table(){
+<!--            alert("ccccc");-->
+            var db_input = document.getElementById("db");
+            var table_list = document.getElementById("table_list");
+            while(table_list.options.length > 0){
+                table_list.removeChild(table_list.options[0]);
+            }
+<!--            alert("ddddd");-->
+            var db_table_dict = {{db_table_dict|tojson}}
+            for(var i = 0;i < db_table_dict[db_input.value].length; i++){
+                var op=document.createElement("option");
+                op.setAttribute("value", db_table_dict[db_input.value][i]);
+                table_list.appendChild(op);
+            }
+            var table = document.getElementById("table");
+            table.list = table_list
+
+        }
+    </script>
+</body>
+</html>

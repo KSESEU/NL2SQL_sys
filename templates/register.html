@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>注册</title>
+    <style type="text/css">
+        @import url(../static/css/register.css);
+    </style>
+</head>
+
+<body>
+    <form method="post" action="./register">
+        <p class="yahei">用户名<br /><input type="text" class="textinput" placeholder="请输入用户名" name="account"/></p>
+        <p class="yahei">密码<br /><input type="password" class="textinput" placeholder="请输入密码" name="psw"/></p>
+        <p class="yahei">确认密码<br /><input type="password" class="textinput" placeholder="请再次输入密码" name="cf_psw"/></p>
+        <p class="yahei">手机号<br /><input type="text" class="textinput" placeholder="请输入手机号" name="pn"/></p>
+        <p class="yahei">邮箱<br /><input type="text" class="textinput" placeholder="请输入邮箱" name="email"/></p>
+        <p><input type="submit" value="注册"/></p>
+        <p class="yahei">已经有账户？<a href="./login">登录</a></p>
+        {% for message in get_flashed_messages() %}
+            <div class=flash>{{ message }}</div>
+        {% endfor %}
+    </form>
+</body>
+
+</html>
